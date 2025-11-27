@@ -24,6 +24,9 @@ const Navigation = () => {
           <a href="/plan" className="text-muted-foreground hover:text-primary hover:neon-green transition-all">
             Plan
           </a>
+           <a href="/Map" className="text-muted-foreground hover:text-primary hover:neon-green transition-all">
+            Map
+          </a>
           <Link 
             to="/calculate" 
             className={location.pathname === "/calculate" ? "text-primary neon-green transition-colors font-medium" : "text-muted-foreground hover:text-primary hover:neon-green transition-all"}
