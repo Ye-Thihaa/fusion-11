@@ -21,8 +21,8 @@ const Navigation = () => {
           >
             Home
           </Link>
-          <a href="#about" className="text-muted-foreground hover:text-primary hover:neon-green transition-all">
-            About
+          <a href="/plan" className="text-muted-foreground hover:text-primary hover:neon-green transition-all">
+            Plan
           </a>
           <Link 
             to="/calculate" 
