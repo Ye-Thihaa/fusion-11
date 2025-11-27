@@ -21,12 +21,18 @@ const Navigation = () => {
           >
             Home
           </Link>
-          <a href="/plan" className="text-muted-foreground hover:text-primary hover:neon-green transition-all">
+            <Link 
+            to="/plan" 
+            className={location.pathname === "/plan" ? "text-primary neon-green transition-colors font-medium" : "text-muted-foreground hover:text-primary hover:neon-green transition-all"}
+          >
             Plan
-          </a>
-           <a href="/Map" className="text-muted-foreground hover:text-primary hover:neon-green transition-all">
+          </Link>
+          <Link 
+            to="/map" 
+            className={location.pathname === "/map" ? "text-primary neon-green transition-colors font-medium" : "text-muted-foreground hover:text-primary hover:neon-green transition-all"}
+          >
             Map
-          </a>
+          </Link>
           <Link 
             to="/calculate" 
             className={location.pathname === "/calculate" ? "text-primary neon-green transition-colors font-medium" : "text-muted-foreground hover:text-primary hover:neon-green transition-all"}
