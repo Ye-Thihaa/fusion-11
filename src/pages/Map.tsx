@@ -119,8 +119,8 @@ const regionData: Record<string, RegionData> = {
 };
 
 const Map = () => {
-  const [hoveredRegion, setHoveredRegion] = useState<RegionData>(regionData["Mon"]);
-
+  const [hoveredRegion, setHoveredRegion] = useState<RegionData | null>(null);
+  
   const handleSelect = (state: string, selectedStates: string[]) => {
     console.log(`Selected state: ${state}`);
     console.log(`Currently selected states: ${selectedStates}`);
@@ -159,7 +159,7 @@ const Map = () => {
             className="bg-card/40 backdrop-blur-sm rounded-2xl p-8 border border-border/50 flex items-center justify-center"
           >
             <Myanmar
-              type="select-multiple"
+              type="select-single"
               size={500}
               mapColor="hsl(0, 0%, 15%)"
               strokeColor="hsl(100, 65%, 60%)"
@@ -177,56 +177,69 @@ const Map = () => {
             transition={{ delay: 0.3 }}
             className="bg-card/40 backdrop-blur-sm rounded-2xl p-8 border border-border/50 sticky top-32"
           >
-            <h2 className="text-2xl font-bold mb-2 text-primary">{hoveredRegion.name}</h2>
-            <p className="text-muted-foreground mb-6">Household Electrification Status</p>
-            
-            <ResponsiveContainer width="100%" height={400}>
-              <PieChart>
-                <Pie
-                  data={hoveredRegion.data}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={120}
-                  fill="#8884d8"
-                  dataKey="value"
-                  animationDuration={500}
-                >
-                  {hoveredRegion.data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    border: "1px solid hsl(var(--border))",
-                    borderRadius: "0.5rem",
-                    color: "hsl(var(--foreground))",
-                  }}
-                />
-                <Legend
-                  wrapperStyle={{
-                    color: "hsl(var(--foreground))",
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-
-            <div className="mt-6 space-y-2">
-              {hoveredRegion.data.map((item, index) => (
-                <div key={index} className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: item.color }}
+            <h2 className="text-2xl font-bold mb-2 neon-green">
+              {hoveredRegion ? hoveredRegion.name : "Select a Region"}
+            </h2>
+            {hoveredRegion && (
+              <p className="text-muted-foreground mb-6">Household Electrification Status</p>
+            )}
+            {hoveredRegion ? (
+              <>
+                <ResponsiveContainer width="100%" height={400}>
+                  <PieChart>
+                    <Pie
+                      data={hoveredRegion.data}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={120}
+                      fill="#8884d8"
+                      dataKey="value"
+                      animationDuration={500}
+                    >
+                      {hoveredRegion.data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    {/* <Tooltip
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "0.5rem",
+                        color: "hsl(var(--foreground))",
+                      }}
+                    /> */}
+                    <Legend
+                      wrapperStyle={{
+                        color: "hsl(var(--foreground))",
+                      }}
                     />
-                    <span className="text-foreground">{item.name}</span>
-                  </div>
-                  <span className="text-muted-foreground">{item.value}%</span>
+                  </PieChart>
+                </ResponsiveContainer>
+
+                <div className="mt-6 space-y-2">
+                  {hoveredRegion.data.map((item, index) => (
+                    <div key={index} className="flex items-center justify-between text-sm">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className="w-3 h-3 rounded-full"
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span className="text-foreground">{item.name}</span>
+                      </div>
+                      <span className="text-muted-foreground">{item.value}%</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            ) : (
+              <div className="h-[400px] flex items-center justify-center">
+                <p className="text-muted-foreground text-lg">
+                  Click on a region to view electrification data
+                </p>
+              </div>
+            )}
           </motion.div>
         </div>
       </div>
